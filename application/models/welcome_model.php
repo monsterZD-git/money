@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class welcome_model extends CI_Model {
+class Welcome_model extends CI_Model {
 
 function get_select_currency() {
 	$this->db->group_by('NumCode'); 

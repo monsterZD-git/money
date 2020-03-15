@@ -52,7 +52,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="card mb-4 py-3 border-left-danger">
           <div class="card-body">
             Ошибка загрузки данных
+            <p>
+              <pre>
+                // создание нового cURL ресурса
+                $ch = curl_init();
+
+                // установка URL и других необходимых параметров
+                curl_setopt($ch, CURLOPT_URL, "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=02/03/2001&date_req2=14/03/2001&VAL_NM_RQ=R01235");
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+
+                // загрузка страницы и выдача её браузеру
+                curl_exec($ch);
+
+                // завершение сеанса и освобождение ресурсов
+                curl_close($ch); 
+              </pre>
+            </p>
+            <?
+              // создание нового cURL ресурса
+              $ch = curl_init();
+
+              // установка URL и других необходимых параметров
+              curl_setopt($ch, CURLOPT_URL, "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=02/03/2001&date_req2=14/03/2001&VAL_NM_RQ=R01235");
+              curl_setopt($ch, CURLOPT_HEADER, 0);
+
+              // загрузка страницы и выдача её браузеру
+              curl_exec($ch);
+
+              // завершение сеанса и освобождение ресурсов
+              curl_close($ch);
+            ?>
+            <p>
+              <pre>
+                $homepage = file_get_contents('http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=02/03/2001&date_req2=14/03/2001&VAL_NM_RQ=R01235');
+                echo $homepage;
+              </pre>
+            </p>
+            <?
+              $homepage = file_get_contents('http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=02/03/2001&date_req2=14/03/2001&VAL_NM_RQ=R01235');
+              echo $homepage;
+            ?>
           </div>
         </div>
+
+
 
         
