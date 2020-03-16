@@ -14,4 +14,10 @@ function get_table_currency() {
 	return $a->result_array(); 
 }
 
+function get_select_code_currency() {
+	$this->db->group_by("ParentCode"); 
+	$a = $this->db->get('currency_code');
+	return $a->result_array(); 
+}
+
 }

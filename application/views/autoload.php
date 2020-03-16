@@ -35,8 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group col-md-12">
                   <label for="exampleSelect1">Currency</label>
                   <select class="form-control" id="exampleSelect1">
-                      <option value="R01235" selected>Доллар США (USD)</option>
+                    <?php foreach ($get_select_code_currency as $item):?>
+                      <option value="<?=$item['ParentCode']?>" <?=($item['ParentCode'] == 'R01235' ? 'selected' : '')?>><?=$item['Name']?> (<?=$item['ParentCode']?>)</option>
+                    <?php endforeach?>
                   </select>
+
                   <small class="form-text text-muted">Выберите нужную вылюту.</small>
                 </div>
                 <div class="form-group col-md-6">

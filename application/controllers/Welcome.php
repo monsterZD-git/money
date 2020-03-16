@@ -89,8 +89,10 @@ class Welcome extends CI_Controller {
 
 	public function autoload()
 	{
+		$this->load->model("welcome_model");
+		$data['get_select_code_currency'] = $this->welcome_model->get_select_code_currency();
 		$this->load->view('top');
-		$this->load->view('autoload');
+		$this->load->view('autoload', $data);
 		$this->load->view('bottom');
 	}
 
