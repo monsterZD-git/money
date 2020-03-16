@@ -30,11 +30,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
               <div class="row">
                 <div class="form-group col-md-12">
-                  <label for="inputUrl">Веб-сервис для получения ежедневных данных (курсы валют, учетные цены драг. металлов и другие)</label>
+                  <label for="inputUrl">Веб-сервис для получения данных курса валют</label>
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="exampleSelect1">Currency</label>
+                  <select class="form-control" id="exampleSelect1">
+                      <option value="R01235" selected>Доллар США (USD)</option>
+                  </select>
+                  <small class="form-text text-muted">Выберите нужную вылюту.</small>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="date1">Date 1</label>
-                  <input class="form-control" type="date" value="<?=date("Y-m-d");?>" id="date1">
+                  <input class="form-control" type="date" value="2020-01-01" id="date1">
                   <small class="form-text text-muted">Дата начала, тип System.DateTime.</small>
                 </div>
                 <div class="form-group col-md-6">
@@ -49,52 +56,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
 
-        <div class="card mb-4 py-3 border-left-danger">
+        <div id="result" class="card mb-4 py-3 border-left-success" style="display: none;">
           <div class="card-body">
-            Ошибка загрузки данных
+            Результат запроса
             <p>
-              <pre>
-                // создание нового cURL ресурса
-                $ch = curl_init();
-
-                // установка URL и других необходимых параметров
-                curl_setopt($ch, CURLOPT_URL, "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=02/03/2001&date_req2=14/03/2001&VAL_NM_RQ=R01235");
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-
-                // загрузка страницы и выдача её браузеру
-                curl_exec($ch);
-
-                // завершение сеанса и освобождение ресурсов
-                curl_close($ch); 
+              <pre id="code">
+                
               </pre>
             </p>
-            <?
-              // создание нового cURL ресурса
-              $ch = curl_init();
-
-              // установка URL и других необходимых параметров
-              curl_setopt($ch, CURLOPT_URL, "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=02/03/2001&date_req2=14/03/2001&VAL_NM_RQ=R01235");
-              curl_setopt($ch, CURLOPT_HEADER, 0);
-
-              // загрузка страницы и выдача её браузеру
-              curl_exec($ch);
-
-              // завершение сеанса и освобождение ресурсов
-              curl_close($ch);
-            ?>
-            <p>
-              <pre>
-                $homepage = file_get_contents('http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=02/03/2001&date_req2=14/03/2001&VAL_NM_RQ=R01235');
-                echo $homepage;
-              </pre>
-            </p>
-            <?
-              $homepage = file_get_contents('http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=02/03/2001&date_req2=14/03/2001&VAL_NM_RQ=R01235');
-              echo $homepage;
-            ?>
           </div>
         </div>
 
-
-
-        
+<script>
+  $(document).ready(function(){
+    $('#loading_auto').click(function(){
+      $('#result').hide();
+      $.ajax({
+        url: "../welcome/currency_load",
+        cache: false,
+        type: "POST",
+        data: {
+          'NumCode': $('#exampleSelect1').val(),
+          'date1': $('#date1').val(),
+          'date2': $('#date2').val()
+        },
+        success: function(res){
+          $('#result').show();
+          $('#code').html(res);
+        }
+      });
+    })
+  })
+</script>

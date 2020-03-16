@@ -195,4 +195,51 @@ class Welcome extends CI_Controller {
 		$this->load->view('bottom');
 	}
 
+	public function currency_load()
+	{
+		$date1 = htmlspecialchars($this->input->post('date1'));
+		$date2 = htmlspecialchars($this->input->post('date2'));
+		$NumCode = htmlspecialchars($this->input->post('NumCode'));
+		# File: usd2.php, v.1.0/20010803
+		# Скрипт для вывода информера по поводу курса доллара, установленного ЦБР
+		# (c) 2001, Mikhail Turenko, http://www.turenko.net, <mikhail@turenko.net>
+		# Использование: <IMG src="usd.php" width="88" height="41" border="0"/>
+		# Выводит PNG, размер выбирается автоматически
+		# строка "dd/mm/yyyy: 1USD=29.30RUR (+0.02)"
+
+		# Базовый URL скрипта на cbr.ru
+		$scripturl = 'http://www.cbr.ru/scripts/XML_dynamic.asp';
+
+		# Начальная дата для запроса 
+		$date_1=date('d/m/Y', strtotime($date1));
+
+		# Конечная дата (чтобы учитывать завтра добавьте параметр time()+86400)
+		$date_2=date('d/m/Y', strtotime($date2));
+
+		# Таким образом, мы получим данные либо за 2, либо за 3 последних дня.
+		# За 2 - если на "сегодня" курс еще не выставили, иначе - за 3
+
+		# Код валюты в архиве данных cbr.ru
+		$currency_code=$NumCode;
+
+		# URL для запроса данных
+		//$requrl = "{$scripturl}?date_req1={$date_1}&date_req2={$date_2}&VAL_NM_RQ={$currency_code}";
+		$requrl = "{$scripturl}?date_req1={$date_1}&date_req2={$date_2}&VAL_NM_RQ={$currency_code}";
+
+		$doc = file($requrl);
+		$doc = implode($doc, '');
+
+		//var_dump($requrl);
+		# инициализируем массив
+		$r = array();
+
+		//var_dump($doc);
+		# ищем <ValCurs>...</ValCurs>
+		if(preg_match("/<ValCurs.*?>(.*?)<\/ValCurs>/is", $doc))
+			# а потом ищем все вхождения <Record>...</Record>
+			preg_match_all("/<Record(.*?)>(.*?)<\/Record>/is", $doc, $r, PREG_SET_ORDER);
+
+
+		print_r($r);
+	}
 }
